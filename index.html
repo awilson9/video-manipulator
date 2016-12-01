@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Hello World!</title>
+</head>
+<body>
+<style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        #root {
+            min-height: 100%; 
+        }
+    </style>
+    <script id="vertex_shader" type="x-shader/x-vertex">
+
+varying vec2 vUv;
+
+void main() {
+
+    vUv = uv;
+    
+    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+    
+}
+
+</script>
+
+<script id="fragment_shader" type="x-shader/x-fragment">
+
+uniform vec3 color;
+uniform sampler2D texture;
+uniform sampler2D texture2;
+uniform float time;
+varying vec2 vUv;
+
+void main() {
+
+    vec4 tColor = texture2D( texture, vUv );
+    vec4 tColor2 = texture2D(texture2, vUv);
+    
+    gl_FragColor = vec4(abs(cos(1.0/time))*tColor.x*tColor2.x, abs(sin(time))*tColor.y*tColor2.y, abs(tan(time))*tColor.z*tColor2.z, tColor.a);
+    
+}
+
+</script>
+    
+ <div id="root"></div>
+ <div id="three-box"></div>
+ We are using node <script>document.write(process.versions.node)</script>,
+ Chrome <script>document.write(process.versions.chrome)</script>,
+ and Electron <script>document.write(process.versions.electron)</script>.
+ <div id="holder">
+  Drag your file here
+</div>
+
+
+<script>window.$ = window.jQuery = require('jquery');</script>
+<script src="app/app.jsx"></script>
+<script src="react-three/build/react-three.js"></script>
+</body>
+</html>
