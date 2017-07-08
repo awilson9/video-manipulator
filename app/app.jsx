@@ -6,6 +6,9 @@ import FileProcess from './app/fileProcess.jsx';
 import VideoPreview from './app/videoPreview.jsx';
 import VideoPlayer from './app/videoPlayer.jsx';
 import fileData from './app/fileData.json';
+import ColorPalette from './app/colorPalette.jsx';
+import ActiveTextures from './app/activeTextures.jsx';
+import SpriteSheetPlayer from './app/spriteSheetPlayer.jsx';
 var ReactTHREE = require('react-three');
 var fs = require("fs");
 
@@ -28,10 +31,10 @@ class App extends React.Component {
 			files:files
 		});
 		
-		var str = JSON.stringify(files);
+		var str = JSON.stringify(this.state);
 		console.log(appDir);
 		
-		fs.writeFile(path + '/fileData.json', str, function(err){
+		fs.writeFile(__dirname + '/app/fileData.json', str, function(err){
 			if(err) console.log(err);
 			else{
 				console.log("success");
@@ -51,7 +54,7 @@ class App extends React.Component {
 			box: {
 				background: 'white',
 				outline: '2px dashed black',
-				display:'block',
+			
 				float:'right',
 				height:'30%',
 				clear:'both',
@@ -66,15 +69,20 @@ class App extends React.Component {
 		}
 		return (
 			<div style={{height:500, width:'100%'}}>
-				<div style={style.box}>
-					<FileProcess style={style} addMedia={(media)=>this.addMedia(media)} />
-				</div>
-				<div style={style.preview}>
-					<VideoPreview style={style} files={this.state.files}/>
-				</div>
+				<div>
+					<div style={style.box}>
+						<FileProcess style={style} addMedia={(media)=>this.addMedia(media)} />
+					</div>
+					<div style={style.preview}>
+						<VideoPreview style={style} files={this.state.files}/>
+					</div>
+				</div>	
+				
 				<div>
 					<VideoPlayer width={1258} height={1020} />
 				</div>
+				<ColorPalette/>
+				
 			</div>
 			);
 	}
