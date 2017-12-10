@@ -11,11 +11,9 @@ export default class VideoPreview extends React.Component{
 		return(
 			<div id="preview-container">
 				{
-					this.props.files.map((path, index) => (
-       				 <div key={index} draggable="true" onDragStart={this.dragStart}><video id={"video" + index} controls width='200' src={path}></video></div>
-   					 )
-					)
-				}</div>
-			);
-		}
+					this.props.files.map((path, index) => (<div key={index} draggable="true" onDragStart={this.dragStart}><video id={"video" + index} controls width='200' src={path}></video></div>))
+				}
+			</div>
+		);
 	}
+}

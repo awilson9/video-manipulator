@@ -12,239 +12,246 @@ const { Renderer, Scene, Mesh, Object3d, PerspectiveCamera } = ReactTHREE;
 
 export default class VideoPreview extends React.Component{
   
-  constructor(props){
+  constructor(props) {
     super(props);
-        
-        this.videos = [];
-        this.videoImageContexts = [];
-        this.videoTextures = [];
-        var numVideos = 0;
-        this.uniforms = {
-          color: { type: "c", value: new THREE.Color( 0xffffff ) }, 
-          time: {type:"f", value:this.time}
-        };
-    
-         var material = new THREE.ShaderMaterial({
-            uniforms        : this.uniforms,
-            vertexShader    : $('#vertex_shader').text(),
-            fragmentShader  : $('#fragment_shader_' + 1).text(),
-        });
-        var position = {x:0, y:0, z: 27};
-        this.state= {numVideos: numVideos, material:material, targetColor:{r:0, g:200, b:102}, currColor:{r:255, g:0, b:0}, updateC:true, imgTextNum:0, position:position};
-        this.animate = () => {
-            for(var i=0;i<this.videos.length; i++){
-            if (this.videos[i].readyState === this.videos[i].HAVE_ENOUGH_DATA) {
-                     var canvasWidth = this.videoImageContexts[i].canvas.clientWidth;
-                     var canvasHeight = this.videoImageContexts[i].canvas.clientHeight;
-                     //this.videoImageContexts[i].clearRect(0, 0, canvasWidth, canvasHeight);
-  
-                      // Move registration point to the center of the canvas
-                      //this.videoImageContexts[i].translate(canvasWidth/2, canvasWidth/2);
-                      
-                      // Rotate 1 degree
-                      //this.videoImageContexts[i].rotate(Math.PI / 180);
-                        
-                      // Move registration point back to the top left corner of canvas
-                      this.videoImageContexts[i].translate(-canvasWidth/2, -canvasWidth/2);
-                   this.videoImageContexts[i].drawImage(this.videos[i], 0, 0);
-                   if (this.videoTextures[i]) {
-                       this.videoTextures[i].needsUpdate = true;
-                     }
-                  }
-               
-           }
-               this.uniforms.time.value += .1; 
-               this.uniforms.numVideos = this.state.numVideos;
-               this.state.material.needsUpdate = true;
-               if(this.state.updateC)this.updateColor();
-             this.frameId = requestAnimationFrame(this.animate)
-           }
+    this.videos = [];
+    this.videoImageContexts = [];
+    this.videoTextures = [];
+    var numVideos = 0;
+    this.uniforms = {
+      color: { type: "c", value: new THREE.Color( 0xffffff ) }, 
+      time: {type:"f", value:this.time}
+    };
+
+    var material = new THREE.ShaderMaterial({
+      uniforms: this.uniforms,
+      vertexShader: $('#vertex_shader').text(),
+      fragmentShader: $('#fragment_shader_' + 1).text(),
+    });
+
+    var position = {x:0, y:0, z: 27};
+    this.state = {
+      numVideos: numVideos, 
+      material:material, 
+      targetColor:{r:0, g:200, b:102}, 
+      currColor:{r:255, g:0, b:0}, 
+      updateC:true, 
+      imgTextNum:0, 
+      position:position
+    };
+
+    this.animate = () => {
+      for (var i=0;i<this.videos.length; i++) {
+        if (this.videos[i].readyState === this.videos[i].HAVE_ENOUGH_DATA) {
+          var canvasWidth = this.videoImageContexts[i].canvas.clientWidth;
+          var canvasHeight = this.videoImageContexts[i].canvas.clientHeight;
+          this.videoImageContexts[i].translate(-canvasWidth/2, -canvasWidth/2);
+          this.videoImageContexts[i].drawImage(this.videos[i], 0, 0);
+          if (this.videoTextures[i]) {
+            this.videoTextures[i].needsUpdate = true;
+          }
+        }
+      }
+
+      this.uniforms.time.value += .1; 
+      this.uniforms.numVideos = this.state.numVideos;
+      this.state.material.needsUpdate = true;
+      if (this.state.updateC) this.updateColor();
+      this.frameId = requestAnimationFrame(this.animate)
+    }
   }
-  updateColor(){
+
+  updateColor() {
     var r = this.state.currColor.r;
     var g = this.state.currColor.g;
     var b = this.state.currColor.b;
-    if(this.state.currColor.r>this.state.targetColor.r){
-        r = this.state.currColor.r-1;
+    if (this.state.currColor.r > this.state.targetColor.r) {
+      r = this.state.currColor.r-1;
     }
-    else if(this.state.currColor.r<this.state.targetColor.r){
-        r = this.state.currColor.r+1;
+    else if (this.state.currColor.r < this.state.targetColor.r) {
+      r = this.state.currColor.r + 1;
     }
-    if(this.state.currColor.g>this.state.targetColor.g){
-        g = this.state.currColor.g-1;
+    if(this.state.currColor.g > this.state.targetColor.g) {
+      g = this.state.currColor.g - 1;
     }
-    else if(this.state.currColor.g<this.state.targetColor.g){
-        g = this.state.currColor.g+1;
+    else if (this.state.currColor.g < this.state.targetColor.g) {
+      g = this.state.currColor.g + 1;
     }
-    if(this.state.currColor.b>this.state.targetColor.b){
-        b = this.state.currColor.b-1;
+    if (this.state.currColor.b > this.state.targetColor.b) {
+      b = this.state.currColor.b - 1;
     }
-    else if(this.state.currColor.b<this.state.targetColor.b){
-        b = this.state.currColor.b+1;
+    else if (this.state.currColor.b < this.state.targetColor.b) {
+      b = this.state.currColor.b + 1;
     }
 
-    if(this.state.currColor.r==this.state.targetColor.r&&this.state.currColor.g==this.state.targetColor.g&&this.state.currColor.b==this.state.targetColor.b){
-     var n_r = Math.round(255*Math.random());
-     var n_g = Math.round(255*Math.random());
+    if (this.state.currColor.r === this.state.targetColor.r 
+        && this.state.currColor.g === this.state.targetColor.g
+        && this.state.currColor.b === this.state.targetColor.b) 
+    {
+      var n_r = Math.round(255*Math.random());
+      var n_g = Math.round(255*Math.random());
       var n_b = Math.round(255*Math.random());
       this.setState({
-      targetColor:{r:n_r, g:n_g, b:n_b},
-      currColor:{r:r, g:g, b:b},
-      updateC:true
-    });
-    }
-    else{
+        targetColor:{r:n_r, g:n_g, b:n_b},
+        currColor:{r:r, g:g, b:b},
+        updateC:true
+      });
+    } else {
       this.setState({
-      currColor:{r:r, g:g, b:b}
-    });
+        currColor:{r:r, g:g, b:b}
+      });
     }
-    
-    this.uniforms.color = {type:"c", value:new THREE.Color("rgb(" + r + ", " + g + ", " + b + ")")}
+    this.uniforms.color = {type:"c", value:new THREE.Color("rgb(" + r + ", " + g + ", " + b + ")")};
   }
-  createImageTextures(src){
+
+  createImageTextures(src) {
     var loader = new THREE.TextureLoader();
-    for(var i=0;i<src.length;i++){
+    for (var i=0; i<src.length; i++) {
       var self = this;
-      loader.load(src[i], function(texture){
+      loader.load(src[i], function(texture) {
         self.uniforms['imgtexture' + self.state.imgTextNum] = {type:"t", value: texture}
         self.setState({
-        imgTextNum:self.state.imgTextNum+1
+          imgTextNum:self.state.imgTextNum+1
+        });
       });
-      });
-      
-     
-    }
-
-    
+    }  
   }
-  constructImage(src){
-    image = new Image();
-    image.src=src;
+
+  constructImage(src) {
+    var image = new Image();
+    image.src = src;
     return image;
   }
-  createVideoTexture(src){
-     // Create the video element
-        let video = $('#' + src)[0];
-        video.loop = true;
-      
-        video.play();
+
+  createVideoTexture(src) {
+    // Create the video element
+    let video = $('#' + src)[0];
+    video.loop = true;
+    video.play();
+
+    // Create canvas element which will hold the current video image (1 image/frame)
+    let videoImage = document.createElement( 'canvas' );
+    videoImage.width = video.videoWidth;
+    videoImage.height = video.videoHeight;
  
-        // Create canvas element which will hold the current video image (1 image/frame)
-        let videoImage = document.createElement( 'canvas' );
-        videoImage.width = video.videoWidth;
-        videoImage.height = video.videoHeight;
+    // Create blank rect if no image
+    let videoImageContext = videoImage.getContext( '2d' );
+    videoImageContext.fillStyle = '#000000';
+    videoImageContext.fillRect(0, 0, videoImage.width, videoImage.height);
  
-        // Create blank rect if no image
-        let videoImageContext = videoImage.getContext( '2d' );
-        videoImageContext.fillStyle = '#000000';
-        videoImageContext.fillRect( 0, 0, videoImage.width, videoImage.height );
- 
-        // Create Three texture with canvas as map
-        let videoTexture = new THREE.Texture( videoImage );
-        videoTexture.minFilter = THREE.LinearFilter;
-        videoTexture.magFilter = THREE.LinearFilter;
-         this.time = 0.1;
-        // Keep these elements in memory
-        this.videos.push(video);
-        this.videoImageContexts.push(videoImageContext);
-        this.videoTextures.push(videoTexture);
-        return videoTexture;
+    // Create Three texture with canvas as map
+    let videoTexture = new THREE.Texture( videoImage );
+    videoTexture.minFilter = THREE.LinearFilter;
+    videoTexture.magFilter = THREE.LinearFilter;
+    this.time = 0.1;
+    
+    // Keep these elements in memory
+    this.videos.push(video);
+    this.videoImageContexts.push(videoImageContext);
+    this.videoTextures.push(videoTexture);
+    return videoTexture;
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.createImageTextures(["textures/texture0.jpg","textures/texture1.jpg","textures/texture2.jpg","textures/texture3.jpg","textures/texture4.jpg"])
-     this.animate();
+    this.animate();
   }
-  dragOver(e){
+
+  dragOver(e) {
     e.preventDefault();
   }
-  dragLeave(e){
+
+  dragLeave(e) {
     e.preventDefault();
   }
+
   changeRange(){
 
   }
-  applyTextures(id, index, self){
+
+  applyTextures(id, index, self) {
     var texture = self.createVideoTexture(id);
     var numVideos = self.state.numVides + 1;
-    if(index!=-1){
-      self.uniforms['imgtexture' + index] = {type:"t", value:texture};
+    if(index !== -1) {
+      self.uniforms['imgtexture' + index] = {type:'t', value: texture};
     }
-    else{
-      self.uniforms['texture1'] = {type: "t", value:texture};
+    else {
+      self.uniforms['texture1'] = {type: 't', value: texture};
     }
+
     var material = new THREE.ShaderMaterial({
-        uniforms        : self.uniforms,
-        vertexShader    : $('#vertex_shader').text(),
-        fragmentShader  : $('#fragment_shader_' + 1).text(),
+        uniforms: self.uniforms,
+        vertexShader: $('#vertex_shader').text(),
+        fragmentShader: $('#fragment_shader_' + 1).text(),
     });
+
     self.setState({
       numVideos: numVideos,
       material:material
     });
   }
-  changePanels(num){
+
+  changePanels(num) {
     var pos;
-    if(num==1){
-      pos={x:0, y:0, z:27}
+    if (num === 1) {
+      pos = {x:0, y:0, z:27};
     }
-    else if(num==4){
-      pos = {x:12.5, y:12.5, z:54}
+    else if (num === 4) {
+      pos = {x:12.5, y:12.5, z:54};
     }
-    else if(num==16){
-      pos = {x:37, y:37, z:107}
+    else if (num === 16) {
+      pos = {x:37, y:37, z:107};
     }
-    else if(num==64){
-      pos={x:87.5, y:87.5, z:214}
+    else if(num === 64) {
+      pos = {x:87.5, y:87.5, z:214};
     }
-    else if(num==256){
-      pos={x:187, y:187, z:429}
+    else if (num === 256) {
+      pos = {x:187, y:187, z:429};
     }
-    this.setState({position:pos});
+    this.setState({position: pos});
   }
-  updateCamera(coord, inc){
+  updateCamera(coord, inc) {
     var pos = this.state.position;
-    if(coord==="x"){
-      if(inc){
-        pos.x+=1;
+    if (coord === 'x') {
+      if (inc) {
+        pos.x += 1;
+      } else {
+        pos.x -=1;
       }
-      else{
-        pos.x-=1;
+    } else if(coord === 'y') {
+      if (inc) {
+        pos.y += 1;
+      } else {
+        pos.y -= 1;
       }
-    }
-    else if(coord==="y"){
-      if(inc){
-        pos.y+=1;
+    } else {
+      if (inc) {
+        pos.z += 1;
+      } else {
+        pos.z -= 1;
       }
-      else{
-        pos.y-=1;
-      }
-    }
-    else{
-     if(inc){
-        pos.z+=1;
-      }
-      else{
-        pos.z-=1;
-      }
-    }
+   }
     this.setState({position:pos});
   }
-  drop(e){
+
+  drop(e) {
     e.preventDefault();
-    if(e.dataTransfer.types[0]==="color"){
-      var color = JSON.parse(e.dataTransfer.getData("color"));
+    if (e.dataTransfer.types[0] === 'color') {
+      var color = JSON.parse(e.dataTransfer.getData('color'));
       this.setState({
-        targetColor:color,
-        updateC:true
+        targetColor: color,
+        updateC: true
       });
-      this.uniforms.color = {type:"c", value:new THREE.Color("rgb(" + color.r + ", " + color.g + ", " + color.b + ")")}
-      
+
+      this.uniforms.color = {
+        type:"c", 
+        value:new THREE.Color("rgb(" + color.r + ", " + color.g + ", " + color.b + ")")
+      };
+    }
   }
-}
-    render() {
-     
-    var cameraprops = {position:this.state.position};
+
+  render() {   
+    var cameraprops = { position: this.state.position };
     var a = new THREE.Vector3(0, 0, 0);
     var a1 = new THREE.Vector3(0, 25, 0);
     var a2 = new THREE.Vector3(25, 0, 0);
@@ -519,7 +526,6 @@ export default class VideoPreview extends React.Component{
     
 
     return (
-     
       <div
         onDragOver = {(e)=>this.dragOver(e)}
         onDragEnter = {(e)=>this.dragOver(e)}
@@ -799,38 +805,35 @@ export default class VideoPreview extends React.Component{
             <Mesh geometry={geometry} material={this.state.material} position={cd12}/>
             <Mesh geometry={geometry} material={this.state.material} position={cd13}/>
             <Mesh geometry={geometry} material={this.state.material} position={cd14}/>
-            <Mesh geometry={geometry} material={this.state.material} position={cd15}/>
-       
-          
+            <Mesh geometry={geometry} material={this.state.material} position={cd15}/>      
         </Scene>
     </Renderer>
-     <div style={{float:'right'}}>
+    
+    <div style={{float:'right'}}>
       <ActiveTextures applyTextures={this.applyTextures} parent={this} changeRange={this.changeRange}/>
     </div>
     <div>
       <button onClick={()=>this.changePanels(1)}> 1</button>
       <button onClick={()=>this.changePanels(4)}> 4</button>
       <button onClick={()=>this.changePanels(16)}> 16</button>
-       <button onClick={()=>this.changePanels(64)}> 64</button>
-       <button onClick={()=>this.changePanels(256)}> 256</button>
+      <button onClick={()=>this.changePanels(64)}> 64</button>
+      <button onClick={()=>this.changePanels(256)}> 256</button>
     </div>
     <div>
-        <p>x={this.state.position.x}
-          <button onClick={()=>this.updateCamera("x", true)} />
-          <button onClick={()=>this.updateCamera("x", false)} />
-        </p>
-        <p>y={this.state.position.y}
-          <button onClick={()=>this.updateCamera("y", true)} />
-          <button onClick={()=>this.updateCamera("y", false)} />
-        </p>
-        <p>z={this.state.position.z}
-          <button onClick={()=>this.updateCamera("z", true)} />
-          <button onClick={()=>this.updateCamera("z", false)} />
-        </p>
+      <p> x={this.state.position.x}
+        <button onClick={()=>this.updateCamera("x", true)} />
+        <button onClick={()=>this.updateCamera("x", false)} />
+      </p>
+      <p> y={this.state.position.y}
+        <button onClick={()=>this.updateCamera("y", true)} />
+        <button onClick={()=>this.updateCamera("y", false)} />
+      </p>
+      <p>z={this.state.position.z}
+        <button onClick={()=>this.updateCamera("z", true)} />
+        <button onClick={()=>this.updateCamera("z", false)} />
+      </p>
     </div>
-    </div>
-   
-    
+  </div> 
     );
   }
   

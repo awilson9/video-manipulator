@@ -13,86 +13,84 @@ export default class ActiveTextures extends React.Component {
 	}
 	drop(e, index, textureIndex){
 		e.preventDefault();
-		var div = $('#'+index);
+		var div = $('#' + index);
 		var children = div.children();
-		if(children.length>0){
-			var child = children[0].remove();
-			
+		if (children.length > 0){
+			var child = children[0].remove();	
 		}
-		var id = e.dataTransfer.getData("text/plain");
-		var vid = $('#'+id);
-		div.width(vid.width()).height(vid.height()+20);
+		var id = e.dataTransfer.getData('text/plain');
+		var vid = $('#' + id);
+		div.width(vid.width()).height(vid.height() + 20);
 		div.append(vid.remove());
 		this.props.applyTextures(id, textureIndex, this.props.parent);
 	}
 	dropPattern(e){
-		this.drop(e, "pattern", -1);
+		this.drop(e, 'pattern', -1);
 	}
 	drop1(e){
-		this.drop(e, "1", 0);
+		this.drop(e, '1', 0);
 	}
 	drop2(e){
-		this.drop(e, "2", 1);
+		this.drop(e, '2', 1);
 	}
 	drop3(e){
-		this.drop(e, "3", 2);
+		this.drop(e, '3', 2);
 	}
 	drop4(e){
-		this.drop(e, "4", 3);
+		this.drop(e, '4', 3);
 	}
 	drop5(e){
-		this.drop(e, "5", 4);
+		this.drop(e, '5', 4);
 	}
-	sliderChange(val, index){
+	sliderChange(val, index) {
 		var value = Number(val.target.value);
-		$('#slider-'+index).val(val.target.value);
-		var targetDiv = $('#'+index);
-		if(targetDiv.children().length>0){
+		$('#slider-' + index).val(val.target.value);
+		var targetDiv = $('#' + index);
+		if (targetDiv.children().length > 0) {
 			targetDiv.children()[0].playbackRate = value;
 		}
 	}
-	sliderChange1(val){
-		this.sliderChange(val, "1");
+	sliderChange1(val) {
+		this.sliderChange(val, '1');
 	}
-	sliderChange2(val){
-		this.sliderChange(val, "2");
+	sliderChange2(val) {
+		this.sliderChange(val, '2');
 	}	
-	sliderChange3(val){
-		this.sliderChange(val, "3");
+	sliderChange3(val) {
+		this.sliderChange(val, '3');
 	}
-	sliderChange4(val){
-		this.sliderChange(val, "4");
+	sliderChange4(val) {
+		this.sliderChange(val, '4');
 	}
-	sliderChange5(val){
-		this.sliderChange(val, "5");
+	sliderChange5(val) {
+		this.sliderChange(val, '5');
 	}
-	sliderChangePattern(val){
-		this.sliderChange(val, "pattern");
+	sliderChangePattern(val) {
+		this.sliderChange(val, 'pattern');
 	}
-	changeInput(e){
+	changeInput(e) {
 		this.props.changeRange()
 	}
 
 	render(){
-		const style={
-			parent:{
+		const style = {
+			parent: {
 				position:'relative'
 			},
-			slider:{
+			slider: {
 				transform: 'rotate(270deg)',
-				position:'relative',
-				left:-70,
-				top:130,
-				width:100
+				position: 'relative',
+				left: -70,
+				top: 130,
+				width: 100
 			},
-			table:{
-				width:200,
-				tableLayout:'fixed'
+			table: {
+				width: 200,
+				tableLayout: 'fixed'
 			},
-			input:{
-				width:40
+			input: {
+				width: 40
 			}
-			
 		}
 		return(
 			<div>
@@ -303,9 +301,6 @@ export default class ActiveTextures extends React.Component {
 					</div>
 				</div>				
 			</div>
-
-				
-
-			);
+		);
 	}
 }

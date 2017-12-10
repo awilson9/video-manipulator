@@ -10,11 +10,7 @@ import ColorPalette from './app/colorPalette.jsx';
 import ActiveTextures from './app/activeTextures.jsx';
 import SpriteSheetPlayer from './app/spriteSheetPlayer.jsx';
 var ReactTHREE = require('react-three');
-var fs = require("fs");
-
-
-console.log(appDir);
-console.log(fs);
+var fs = require('fs');
 
 class App extends React.Component {
 	constructor(props) {
@@ -28,20 +24,19 @@ class App extends React.Component {
 			files.push(media[path]);
 		}
 		this.setState({
-			files:files
+			files: files
 		});
 		
 		var str = JSON.stringify(this.state);
-		console.log(appDir);
 		
 		fs.writeFile(__dirname + '/app/fileData.json', str, function(err){
-			if(err) console.log(err);
-			else{
+			if (err) console.log(err);
+			else {
 				console.log("success");
 			}
 		});	
 	}
-	render(){
+	render() {
 		const style = {
 			hidden: {
 				display: 'none'
@@ -49,23 +44,23 @@ class App extends React.Component {
 			display: {
 				display: 'inline-block',
 				paddingTop:'40%',
-				textAlign:'center'
+				textAlign: 'center'
 			},
 			box: {
 				background: 'white',
 				outline: '2px dashed black',
 			
-				float:'right',
-				height:'30%',
-				clear:'both',
+				float: 'right',
+				height: '30%',
+				clear: 'both',
 
 			},
-			preview:{
-				right:0,
-				float:'right',
-				display:'block',
-				clear:'both'
-			},
+			preview: {
+				right: 0,
+				float: 'right',
+				display: 'block',
+				clear: 'both'
+			}
 		}
 		return (
 			<div style={{height:500, width:'100%'}}>
@@ -76,15 +71,13 @@ class App extends React.Component {
 					<div style={style.preview}>
 						<VideoPreview style={style} files={this.state.files}/>
 					</div>
-				</div>	
-				
+				</div>
 				<div>
 					<VideoPlayer width={1258} height={1020} />
 				</div>
-				<ColorPalette/>
-				
+				<ColorPalette />
 			</div>
-			);
+		);
 	}
 }/*
 function shaderstart() { // eslint-disable-line no-unused-vars

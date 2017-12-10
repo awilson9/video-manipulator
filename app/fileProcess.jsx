@@ -2,13 +2,15 @@ import React from 'react';
 
 export default class FileProcess extends React.Component{
 
-	dragOver(e){
+	dragOver(e) {
 		e.preventDefault();
 	}
-	dragLeave(e){
+
+	dragLeave(e) {
 		e.preventDefault();
 	}
-	drop(e){
+
+	drop(e) {
 		e.preventDefault();
 		var media = [];
     	for (let f of e.dataTransfer.files) {
@@ -16,8 +18,8 @@ export default class FileProcess extends React.Component{
     	}
     	this.props.addMedia(media);
 	}
-	render(){
-		
+
+	render() {
 		return(
 			<div id="holder"
 			onDragOver = {(e)=>this.dragOver(e)}
@@ -25,14 +27,12 @@ export default class FileProcess extends React.Component{
 			onDragLeave = {(e)=>this.dragLeave(e)}
 			onDragEnd = {(e)=>this.dragLeave(e)}
 			onDrop = {(e)=>this.drop(e)}
-		
 			>	
 				<div id="box__input" style={this.props.style.display}>
 					<strong>Choose a file </strong>
 					 or drag it here
 				</div>
 			</div>
-			)	
+		)	
 	}
-
 }
