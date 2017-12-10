@@ -6,4 +6,5 @@
 *.mov
 *.ppm
 *.MOV
+videos/
 node_modules/
