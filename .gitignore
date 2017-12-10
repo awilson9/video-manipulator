@@ -1,0 +1,9 @@
+*.jpg
+*.png
+*.mp4
+*.gif
+*.webm
+*.mov
+*.ppm
+*.MOV
+node_modules/
