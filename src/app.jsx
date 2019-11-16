@@ -1,33 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-var path = require('path');
-var appDir = path.resolve(__dirname);
-import FileProcess from './app/fileProcess.jsx';
-import VideoPreview from './app/videoPreview.jsx';
-import VideoPlayer from './app/videoPlayer.jsx';
-import fileData from './app/fileData.json';
-import ColorPalette from './app/colorPalette.jsx';
-import ActiveTextures from './app/activeTextures.jsx';
-import SpriteSheetPlayer from './app/spriteSheetPlayer.jsx';
-var ReactTHREE = require('react-three');
-var fs = require('fs');
+const path = require('path');
+const appDir = path.resolve(__dirname);
+import FileProcess from './fileProcess.jsx';
+import VideoPreview from './videoPreview.jsx';
+import VideoPlayer from './videoPlayer.jsx';
+import fileData from './fileData.json';
+import ColorPalette from './colorPalette.jsx';
+import ActiveTextures from './activeTextures.jsx';
+import SpriteSheetPlayer from './spriteSheetPlayer.jsx';
+const ReactTHREE = require('react-three');
+const fs = require('fs');
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {files: fileData.files};
 	}
-
 	addMedia(media){
-		var files = this.state.files;
-		for(var path in media){
+		const files = this.state.files;
+		for(const path in media){
 			files.push(media[path]);
 		}
 		this.setState({
 			files: files
 		});
 		
-		var str = JSON.stringify(this.state);
+		const str = JSON.stringify(this.state);
 		
 		fs.writeFile(__dirname + '/app/fileData.json', str, function(err){
 			if (err) console.log(err);
@@ -36,6 +35,7 @@ class App extends React.Component {
 			}
 		});	
 	}
+	
 	render() {
 		const style = {
 			hidden: {
@@ -81,7 +81,7 @@ class App extends React.Component {
 	}
 }/*
 function shaderstart() { // eslint-disable-line no-unused-vars
-  var renderelement = document.getElementById("three-box");
+  const renderelement = document.getElementById("three-box");
 
   ReactTHREE.render(<VideoPlayer width={512} height={256} />, renderelement);
 }
@@ -89,4 +89,4 @@ window.onload = shaderstart;*/
 ReactDOM.render(
 	<App />,
 	document.getElementById('root'),
-	);
+);
