@@ -8,3 +8,6 @@
 *.MOV
 videos/
 node_modules/
+.DS_Store
+dist/
+package-lock.json

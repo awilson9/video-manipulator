@@ -13,13 +13,13 @@ export default class ActiveTextures extends React.Component {
 	}
 	drop(e, index, textureIndex){
 		e.preventDefault();
-		var div = $('#' + index);
-		var children = div.children();
+		const div = $('#' + index);
+		const children = div.children();
 		if (children.length > 0){
-			var child = children[0].remove();	
+			const child = children[0].remove();	
 		}
-		var id = e.dataTransfer.getData('text/plain');
-		var vid = $('#' + id);
+		const id = e.dataTransfer.getData('text/plain');
+		const vid = $('#' + id);
 		div.width(vid.width()).height(vid.height() + 20);
 		div.append(vid.remove());
 		this.props.applyTextures(id, textureIndex, this.props.parent);
@@ -43,9 +43,9 @@ export default class ActiveTextures extends React.Component {
 		this.drop(e, '5', 4);
 	}
 	sliderChange(val, index) {
-		var value = Number(val.target.value);
+		const value = Number(val.target.value);
 		$('#slider-' + index).val(val.target.value);
-		var targetDiv = $('#' + index);
+		const targetDiv = $('#' + index);
 		if (targetDiv.children().length > 0) {
 			targetDiv.children()[0].playbackRate = value;
 		}
